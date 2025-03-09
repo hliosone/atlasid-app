@@ -1,52 +1,34 @@
-import React, { useState } from "react";
-
-import walletConnect from "./walletConnect.js";
-
-import "./assets/App.css";
-
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { UserProvider } from './context/UserContext';
+import MainPage from './pages/MainPage';
+import CasinoPage from './pages/CasinoPage';
+import ReferendumPage from './pages/ReferendumPage';
+import AtlasIdPage from './pages/AtlasIdPage';
+import './assets/App.css';
 
 function App() {
-	const [walletData, setWalletData] = useState();
-	const [accountId, setAccountId] = useState();
-	
-	const [connectTextSt, setConnectTextSt] = useState("Connect here...");
-	const [createTextSt, setCreateTextSt] = useState("");
-	
+  return (
+    <UserProvider>
+      <Router>
+        <div className="App">
 
-	const [connectLinkSt, setConnectLinkSt] = useState("");
-	
-	async function connectWallet() {
-		if (accountId !== undefined) {
-			setConnectTextSt(`Account ${accountId} is connected`);
-		} else {
-			const walletData = await walletConnect();
-			walletData[0].pairingEvent.once((pairingData) => {
-				pairingData.accountIds.forEach((id) => {
-					setAccountId(id);
-					console.log(`- Paired account id: ${id}`);
-					setConnectTextSt(`Account ${id} has been connected`);
-					setConnectLinkSt(`https://hashscan.io/#/testnet/account/${id}`);
-				});
-			});
-			setWalletData(walletData);
-			setCreateTextSt();
-		}
-	}
+          <nav className="nav-bar">
+            <Link to="/">Home</Link>
+            <Link to="/casino">Casino</Link>
+            <Link to="/referendum">Réferendum</Link>
+          </nav>
 
-
-	return (
-		<div className="App">
-			<h1 className="header">Hedera Hackathon Dapp</h1>
-			
-
-			<div className="content-container">
-				<a href={connectLinkSt} target={"_blank"} rel="noreferrer"></a>
-				<p className="sub-text">{connectTextSt}</p>
-				<button onClick={connectWallet} className="cta-button">
-					Connect Wallet
-				</button>
-			</div>
-		</div>
-	);
+          <Routes>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/casino" element={<CasinoPage />} />
+            <Route path="/referendum" element={<ReferendumPage />} />
+            <Route path="/atlas-id/:tokenId" element={<AtlasIdPage />} />
+          </Routes>
+        </div>
+      </Router>
+    </UserProvider>
+  );
 }
+
 export default App;
