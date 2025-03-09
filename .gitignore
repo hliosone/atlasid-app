@@ -23,3 +23,10 @@ yarn-debug.log*
 yarn-error.log*
 
 .env
+rsa-keys/
+uploads/
+bob-disclosures.json
+bob-sd-jwt-vc.json
+alicia-disclosures.json
+alicia-sd-jwt-vc.json
+AtlasID/

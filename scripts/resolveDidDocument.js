@@ -17,8 +17,8 @@ function assembleChunks(chunkMessages) {
 
 /**
  * Retrieves and reconstructs a DID Document from a Hedera topic.
- * @param {string} did - Example: "did:hedera:testnet:0.0.12345"
- * @returns {Promise<object>} - { success: boolean, didDocument, authorizedIssuers, message: string }
+ * @param {string} did 
+ * @returns {Promise<object>} 
  */
 async function resolveDidDocument(did) {
   console.log("Resolving DID Document for:", did);

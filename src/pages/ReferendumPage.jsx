@@ -1,25 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { useUser } from '../context/UserContext';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useUser } from "../context/UserContext";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const ReferendumPage = () => {
   const { currentUser } = useUser();
   const navigate = useNavigate();
   const location = useLocation();
+  
+  // Generate a specific key to store the status per user
+  const userKey = currentUser ? `referendumVerificationStatus_${currentUser.accountId}` : null;
+
+  // Load the status from localStorage
   const [verificationStatus, setVerificationStatus] = useState(() => {
-    return localStorage.getItem("referendumVerificationStatus") || null;
+    return userKey ? localStorage.getItem(userKey) || null : null;
   });
 
-  // Check if returning from a redirection after verification
   useEffect(() => {
+    if (!userKey) return;
+
     const params = new URLSearchParams(location.search);
-    const status = params.get('status');
+    const status = params.get("status");
 
     if (status) {
       setVerificationStatus(status);
-      localStorage.setItem("referendumVerificationStatus", status); // Save verification status
+      localStorage.setItem(userKey, status);
     }
-  }, [location]);
+  }, [location, userKey]);
 
   const handleReferendumCheck = async () => {
     if (!currentUser) return;
@@ -40,7 +46,7 @@ const ReferendumPage = () => {
 
       if (result.success && result.atlasIdUrl) {
         console.log("Redirecting to Atlas ID:", result.atlasIdUrl);
-        navigate(result.atlasIdUrl); // Redirect to Atlas ID page for verification
+        navigate(result.atlasIdUrl); // Redirect to Atlas ID for verification
       } else {
         console.error("API error:", result.message);
       }
@@ -63,12 +69,12 @@ const ReferendumPage = () => {
       <h1>Referendum</h1>
       <p>User: {currentUser.name} (ID: {currentUser.accountId})</p>
 
-      {/* Display verification result */}
+      {/* Display verification status */}
       {verificationStatus === "granted" && (
-        <p style={{ color: "green", fontWeight: "bold" }}>✅ You are eligible to vote in the referendum!</p>
+        <p style={{ color: "green", fontWeight: "bold" }}>You are eligible to vote in the referendum!</p>
       )}
       {verificationStatus === "denied" && (
-        <p style={{ color: "red", fontWeight: "bold" }}>❌ You are not eligible to vote.</p>
+        <p style={{ color: "red", fontWeight: "bold" }}>You are not eligible to vote.</p>
       )}
 
       {/* Hide button if the user is already verified */}

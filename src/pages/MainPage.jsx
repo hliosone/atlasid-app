@@ -1,5 +1,5 @@
-import React from 'react';
-import { useUser } from '../context/UserContext';
+import React from "react";
+import { useUser } from "../context/UserContext";
 
 function MainPage() {
   const { currentUser, setCurrentUser } = useUser();
@@ -10,18 +10,12 @@ function MainPage() {
   console.log("USER_BOB_ID:", USER_BOB_ID);
   console.log("USER_ALICIA_ID:", USER_ALICIA_ID);
 
-  const handleSelectUser1 = () => {
-    setCurrentUser({
-      name: 'User Bob',
-      accountId: USER_BOB_ID
-    });
-  };
+  const handleSelectUser = (name, accountId) => {
+    // Reset verification status to avoid conflicts between users
+    localStorage.removeItem(`casinoVerificationStatus_${accountId}`);
+    localStorage.removeItem(`referendumVerificationStatus_${accountId}`);
 
-  const handleSelectUser2 = () => {
-    setCurrentUser({
-      name: 'User Alicia',
-      accountId: USER_ALICIA_ID
-    });
+    setCurrentUser({ name, accountId });
   };
 
   return (
@@ -33,10 +27,10 @@ function MainPage() {
         <p>No user selected</p>
       )}
 
-      <button onClick={handleSelectUser1} className="cta-button">
+      <button onClick={() => handleSelectUser("User Bob", USER_BOB_ID)} className="cta-button">
         Log in as User Bob
       </button>
-      <button onClick={handleSelectUser2} className="cta-button">
+      <button onClick={() => handleSelectUser("User Alicia", USER_ALICIA_ID)} className="cta-button">
         Log in as User Alicia
       </button>
 
