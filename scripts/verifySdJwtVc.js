@@ -28,7 +28,7 @@ async function verifySdJwtVc(sdJwtVcInput, accountId, disclosures) {
     // Retrieve the government DID document to verify the issuer
     const issuerDID = sdJwtVc.vc.issuer;
     console.log("Retrieving government DID document...");
-    const governmentDID = `did:hedera:testnet:${process.env.TEST_ACCOUNT_ID}`;
+    const governmentDID = `did:hedera:testnet:${process.env.GOVERNMENT_ID}`;
     console.log("Government DID:", governmentDID);
 
     const govDidResult = await resolveDidDocument(governmentDID);
@@ -90,7 +90,7 @@ async function verifySdJwtVc(sdJwtVcInput, accountId, disclosures) {
 
     try {
         const query = new TopicMessageQuery()
-            .setTopicId(process.env.TEST_SDJWT_VC_TOPIC_ID)
+            .setTopicId(process.env.SDJWT_VC_TOPIC_ID)
             .setStartTime(new Date(2025, 0, 1));
 
         await new Promise((resolve, reject) => {
