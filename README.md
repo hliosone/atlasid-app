@@ -2,11 +2,11 @@
 
 AtlasID App is a demo project that showcases selective disclosure verification using SD-JWT Verifiable Credentials (VCs). The platform allows users to verify specific attributes (such as age or country of residence) without revealing their full identity. The goal is to use it in accordance with EUDIW and E-ID Standard wallets features.
 
-## 🚀 Project Purpose
+## Project Purpose
 
 This application demonstrates a privacy-preserving verification system where companies can request verification for specific attributes.
 
-## ✅ Available Verifications (Examples)
+## Available Verifications (Examples)
 
 ### Casino Access
 - Must be 18+ years old (`dateOfBirth < 2007-01-01`).
@@ -15,7 +15,7 @@ This application demonstrates a privacy-preserving verification system where com
 ### Referendum Eligibility
 - Must be a resident of Switzerland (`countryOfResidence = Suisse`).
 
-## 🔍 How the Verification Works
+## How the Verification Works
 
 1. A user requests verification.
 2. The app generates a verification token and provides an upload link.
